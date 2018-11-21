@@ -2,7 +2,6 @@
 
 const {inspect} = require(util);
 
-const async = require(async);
 const AWS = require(aws-sdk);
 const gm = require(gm);
 
