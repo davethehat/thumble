@@ -22,7 +22,7 @@ describe('putObject', () => {
     Bucket: bucket,
     Key: key,
     Body: body,
-    ContentType: contentType;
+    ContentType: contentType
   };
 
   let s3putObjectStub;
@@ -40,12 +40,12 @@ describe('putObject', () => {
     s3putObjectStub.restore();
   });
 
-  it('calls S3 to get the identified object', (done) => {
-    initStub(expectedRequest, null, 'anS3Object');
+  it('calls S3 to put the identified object', (done) => {
+    initStub(expectedRequest, null, 'response');
 
-    getObject(s3, bucket, key)
+    putObject(s3, bucket, key, body, contentType)
       .then((object) => {
-        expect(object).to.equal('anS3Object');
+        expect(object).to.equal('response');
         done();
       })
       .catch((err) => {
@@ -56,7 +56,7 @@ describe('putObject', () => {
   it('rejects on S3 error', (done) => {
     initStub(expectedRequest, 'error');
 
-    getObject(s3, bucket, key)
+    putObject(s3, bucket, key, body, contentType)
       .then((object) => {
         assert.fail(object);
       })
