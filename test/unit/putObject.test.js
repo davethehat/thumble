@@ -15,13 +15,13 @@ describe('putObject', () => {
 
   const bucket = 'destinationBucket';
   const key = 'destinationKey';
-  const body = 'an image body';
+  const image = 'an image body';
   const contentType = 'contentType';
 
   const expectedRequest = {
     Bucket: bucket,
     Key: key,
-    Body: body,
+    Body: image,
     ContentType: contentType
   };
 
@@ -43,7 +43,9 @@ describe('putObject', () => {
   it('calls S3 to put the identified object', (done) => {
     initStub(expectedRequest, null, 'response');
 
-    putObject(s3, bucket, key, body, contentType)
+    const f = putObject(s3, bucket, key);
+
+    f({image, contentType})
       .then((object) => {
         expect(object).to.equal('response');
         done();
@@ -56,7 +58,9 @@ describe('putObject', () => {
   it('rejects on S3 error', (done) => {
     initStub(expectedRequest, 'error');
 
-    putObject(s3, bucket, key, body, contentType)
+    const f = putObject(s3, bucket, key);
+
+    f({image, contentType})
       .then((object) => {
         assert.fail(object);
       })
